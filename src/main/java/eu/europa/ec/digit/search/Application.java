@@ -1,8 +1,6 @@
 package eu.europa.ec.digit.search;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,26 +27,21 @@ public class Application implements CommandLineRunner {
 	protected String sortMyString(String unsortedString) {
 
 		List<String> list = Arrays.asList(unsortedString.split(" "));
-		Collections.sort(list);
-		return list.get(0) + " " + list.get(1) + " " + list.get(2) + " " + list.get(4) + " " + list.get(5) + " " + list.get(6) + " " + list.get(7) + " " + list.get(8);
+		list.sort(Comparator.comparing(s -> s.substring(0, 1), String.CASE_INSENSITIVE_ORDER));
+		return String.join(" ", list);
 
 	}
 
 	protected List<String> removeDuplicatesFromList(List<String> values) {
 
-		boolean exist = false;
-
-		for (String val : values) {
-
-			if (exist) {
-				values.remove(val);
-			} else {
-				exist = true;
+		List<String> result = new ArrayList<>();
+		for (String element : values) {
+			if (!result.contains(element)) {
+				result.add(element);
 			}
-
 		}
+		return result;
 
-		return values;
 	}
 
 }
